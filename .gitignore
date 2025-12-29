@@ -31,6 +31,9 @@ ENV/
 
 datasets/
 *.gz
+*.json
+*unique_descriptions.txt
+*test.ipynb
 
 # IDE
 .vscode/

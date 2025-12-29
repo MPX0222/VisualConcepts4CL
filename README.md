@@ -66,6 +66,11 @@ cd VisualConcepts4CL
 pip install -r requirements.txt
 ```
 
+   For concept generation (optional):
+```bash
+pip install openai scikit-learn nltk
+```
+
 3. Download pretrained CLIP models:
    - Create a `pretrained_model/` directory in the project root
    - Download CLIP models and place them in `pretrained_model/`
@@ -139,6 +144,17 @@ datasets/
 
 **Note**: The class description files are already included in this repository and do not need to be downloaded separately.
 
+### Generating Class Descriptions (Optional)
+
+If you want to generate your own class descriptions using LLMs, you can use the concept generation tool located in `methods/concept_generation/`. This is an independent module that:
+
+- Generates visual concept descriptions using LLM APIs (OpenAI GPT models)
+- Implements a similarity-based filtering mechanism to prevent redundant descriptions
+- Supports batch processing and different prompt types (medical, default, CT, etc.)
+- Converts description pools to index-based format for efficient storage
+
+**Note**: The pre-generated descriptions in `datasets/class_descs/` are ready to use. You only need to run this tool if you want to generate new descriptions or modify existing ones.
+
 ## 🎯 Usage
 
 ### Training
@@ -165,6 +181,80 @@ is_train = False
 ```
 
 The evaluation script will load checkpoints from the specified save path and evaluate on all tasks.
+
+### Generating Visual Concepts
+
+The `methods/concept_generation/` module is an independent tool for generating LLM-based visual concept descriptions. This tool is used to create the class descriptions that are later used in the main training pipeline.
+
+#### Setup
+
+1. Install additional dependencies:
+```bash
+pip install openai scikit-learn nltk
+```
+
+2. Download NLTK data (required for text preprocessing):
+```python
+import nltk
+nltk.download('stopwords')
+nltk.download('punkt_tab')
+```
+
+3. Configure API credentials:
+   - Edit `description_generator.py` and set your OpenAI API key and base URL
+   - Or set environment variables for API configuration
+
+#### Usage
+
+1. Prepare a category file:
+   - Create a text file listing all class names (one per line or as a Python list)
+   - Example files are available in `methods/concept_generation/datasets/`
+
+2. Run the concept generation:
+```bash
+cd methods/concept_generation
+python main.py
+```
+
+3. Configure the generation in `main.py`:
+```python
+data_info = {
+    "path": "datasets/skin8.txt",  # Path to category file
+    "need_type": "all",  # "all" for single prompt type, "mixed" for multiple types
+    "need_description": {
+        "type": "default"  # Prompt type: "default", "medical", or "ct"
+    },
+    "batch_size": 2  # Number of classes to process per batch
+}
+```
+
+4. Convert description pool to index format:
+```bash
+python convert_description_pool.py
+```
+
+This will generate:
+- `description_pool_v{N}.json`: Description pool after each batch
+- `unique_descriptions.txt`: List of all unique descriptions
+- `description_pool_indices.json`: Index-based format for efficient storage
+
+#### Features
+
+- **Similarity-based Filtering**: Automatically filters redundant descriptions using TF-IDF and word overlap metrics
+- **Batch Processing**: Processes classes in batches to manage API rate limits
+- **Multiple Prompt Types**: Supports domain-specific prompts (medical, CT scans, default)
+- **Conflict Detection**: Identifies and removes conflicting descriptions within and across categories
+- **Automatic Pooling**: Maintains a target number of descriptions per class (default: 5)
+
+#### Output Format
+
+The generated files follow the same format as those in `datasets/class_descs/`:
+- `description_pool.json`: `{"class_name": ["concept1", "concept2", ...]}`
+- `unique_descriptions.txt`: Python list of all unique descriptions
+- `description_pool_indices.json`: Index-based mapping for efficient storage
+
+After generation, you can copy these files to `datasets/class_descs/{DATASET_NAME}/` for use in the main training pipeline.
+
 
 ## ⚙️ Configuration
 
