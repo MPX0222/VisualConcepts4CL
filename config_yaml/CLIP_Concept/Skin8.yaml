@@ -1,0 +1,53 @@
+basic:
+  random_seed: 1993
+  version_name: "skin8_b0i2"
+  is_log: False
+  save_checkpoint: False
+  save_path: "../checkpoint&log"
+  method: "CLIP_Concept"
+  increment_type: "CIL"
+#  increment_steps: [ 40, 40, 40, 40, 40 ]
+  increment_steps: [2, 2, 2, 2]
+#  increment_steps: [ 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10 ]
+
+usual:
+  dataset_name: "Skin8"
+  is_openset_test: False
+  data_shuffle: True
+  img_size: 224
+  backbone: "CLIP"
+  pretrained_path: "pretrained_model/CLIP_ViT-B-16.pt"
+  drop_rate: 0
+  drop_path_rate: 0
+  batch_size: 32
+  num_workers: 8
+  epochs: 20
+  optimizer: AdamW
+  loss_func: CEloss
+  scheduler: Cosine
+  lr: 0.003
+  momentum: 0.9
+  weight_decay: 0.0001
+  memory_size: 0
+  memory_per_class: 0
+  apply_nme: False
+  sampling_method: "herding"
+
+special:
+  desc_path: "./datasets/class_descs/Skin8/unique_descriptions.txt"
+  prompt_template: "a photo of a {}."
+  desc_num: 3
+  alpha: 0.8
+  lambd: 1
+  ca_epoch: 5
+  ca_lr: 0.005
+  num_sampled_pcls: 256
+  ca_logit_norm: 0
+
+options:
+  Cosine:
+    eta_min: 0
+  Warm-up-Cosine-Annealing:
+    init_ratio: 0.1
+    warm_up_steps: 2
+    min_lr_ratio: 0.001
