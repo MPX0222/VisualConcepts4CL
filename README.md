@@ -213,11 +213,3 @@ special:
   ca_epoch: 5
   ca_lr: 0.002
 ```
-
-## 📄 License
-
-This project is licensed under the terms specified in the LICENSE file.
-
-## 📧 Contact
-
-For questions or issues, please open an issue on GitHub or contact the authors.
