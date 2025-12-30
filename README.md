@@ -23,6 +23,7 @@
 <div align="center" style="display: flex; gap: 5px; justify-content: center;">
 <a href="https://arxiv.org/abs/2508.03094"><img src="https://img.shields.io/badge/arXiv-red?style=for-the-badge&logo=arxiv"/></a>
 <a href="https://github.com/MPX0222/VisualConcepts4CL"><img src="https://img.shields.io/badge/GitHub-black?style=for-the-badge&logo=github"/></a>
+<a href="https://biod.whu.edu.cn/bibm2025/Accepted_Papers.htm"><img src="https://img.shields.io/badge/BIBM_2025-4b65c4?style=for-the-badge&logo=IEEE&logoColor=white"/></a>
 <a href="https://github.com/MPX0222/VisualConcepts4CL/stargazers"><img src="https://img.shields.io/github/stars/MPX0222/VisualConcepts4CL?style=for-the-badge&color=white"/></a>
 </div>
 
@@ -84,10 +85,6 @@ pip install openai scikit-learn nltk
    - **Note**: Raw dataset files are not included in the repository (see `.gitignore`)
 
 ## 📁 Dataset Preparation
-
-### Important Note
-
-**Datasets are not included in this repository** due to their large size and licensing restrictions. You need to download and prepare the datasets separately. The repository only includes the LLM-generated class descriptions (`datasets/class_descs/`), which are part of the project.
 
 ### Dataset Structure
 
